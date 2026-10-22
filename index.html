@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preload" as="image" href="assets/bg-main.webp?v=3">
+</head>
+<body>
+<title>Коллекция героев Мерчатты</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/nunito-cyrillic-373a90.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/nunito-latin-798ec6.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/nunito-cyrillic-373a90.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/nunito-latin-798ec6.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Pangolin';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/pangolin-cyrillic-cae4ff.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Pangolin';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/pangolin-latin-e14d19.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(assets/fonts/rubik-cyrillic-f655d6.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(assets/fonts/rubik-latin-29683d.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+/* Макет: колонка-«стол»; каждая редкость — своя цветная полоса во всю ширину (цвета рамок карт этой редкости), карты сеткой 2×N; по нажатию карта выезжает в шторке и переворачивается */
+:root{
+  --orange:#F07A2E; --orange-deep:#D9521A; --cream:#FCD9C2; --cream-hi:#FFEBDD; --tape:#E5A98A;
+  --ink:#16110F; --violet:#5D63D8; --lilac:#E4E3F4; --muted:#7A4A33;
+  --f-display:"Rubik","Arial Black",system-ui,sans-serif;
+  --f-hand:"Pangolin","Comic Sans MS","Segoe Print",cursive;
+  --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+/* цвета редкостей — по рамкам вокруг арта на картах */
+[data-r="1"]{--t1:#FFEBDD;--t2:#F9C9A6;--acc:#D9521A}
+[data-r="2"]{--t1:#EEF6D8;--t2:#C9E296;--acc:#6E9A1E}
+[data-r="3"]{--t1:#E5ECFA;--t2:#B7C9EE;--acc:#4F67A8}
+[data-r="4"]{--t1:#F8E2F3;--t2:#E2ACDA;--acc:#A8309A}
+[data-r="5"]{--t1:#F5F4FD;--t2:#B4B1E4;--acc:#5D63D8}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--f-body);font-size:16px;line-height:1.45;color:var(--ink);background:#F68B36}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--orange)}
+/* общий фон — облако-столб с оранжевыми краями; отдельным закреплённым слоем, т.к. iOS не умеет background-attachment:fixed */
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:#F68B36 url("assets/bg-main.webp?v=3") center/cover no-repeat}
+/* шире самой картинки (1170 px) не растягиваем, чтобы не мылилась: натуральный размер по центру, по бокам цвет краёв */
+@media (min-width:1171px){body::after{
+  background:linear-gradient(90deg,#F68B36 calc(50% - 585px),transparent calc(50% - 440px),transparent calc(50% + 440px),#F68B36 calc(50% + 585px)),
+             #F68B36 url("assets/bg-main.webp?v=3") center top/1170px auto no-repeat}}
+.page{max-width:480px;margin:0 auto;min-height:100%;overflow-x:clip;
+  padding-block:14px 0;padding-left:var(--gl);padding-right:var(--gr);
+  display:flex;flex-direction:column;gap:18px}
+
+.intro{margin-top:20px;background:var(--cream-hi);border:4px solid var(--orange-deep);border-radius:24px 18px 26px 16px;padding:20px 16px 16px;position:relative;text-align:center}
+.tape{position:absolute;top:-17px;left:14px;margin:0;font-family:var(--f-hand);font-weight:400;font-size:23px;line-height:1;
+  background:var(--tape);padding:6px 14px 7px;transform:rotate(-2deg);box-shadow:-6px 4px 0 var(--orange-deep)}
+.intro p{margin:6px 0 0;font-weight:800;text-wrap:balance}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.legend li{font-size:12.5px;font-weight:800;background:#fff;border:2px solid var(--acc);border-radius:10px;padding:2px 8px;font-variant-numeric:tabular-nums}
+.legend b{color:var(--acc)}
+
+/* ряды по редкости */
+/* ряды по редкости на общем фоне */
+#tiers{display:flex;flex-direction:column;gap:22px}
+.tier{display:flex;flex-direction:column;gap:12px}
+.tier-h{align-self:flex-start;margin:0;font-family:var(--f-hand);font-weight:400;font-size:21px;line-height:1.1;
+  background:#fff;border:3px solid var(--ink);border-radius:12px;padding:3px 12px 4px;box-shadow:3px 3px 0 var(--ink)}
+.tier-h .s{color:var(--acc);letter-spacing:1px}
+.tier-h small{font-family:var(--f-body);font-weight:800;font-size:12.5px;color:var(--acc);margin-left:4px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{all:unset;cursor:pointer;display:block;position:relative;border-radius:14px;box-shadow:4px 5px 0 var(--ink);transition:transform .15s;line-height:0}
+.card:nth-child(odd){transform:rotate(-1.2deg)}.card:nth-child(even){transform:rotate(1.2deg)}
+.card:active{transform:scale(.97)}
+.card:focus-visible{outline:3px solid var(--violet);outline-offset:4px}
+.card img{width:100%;height:auto;aspect-ratio:1372/2119;border-radius:14px;display:block;background:var(--cream)}
+.tier[data-r="5"] .card::after{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.6) 45%,transparent 60%) 0 0/250% 100%;animation:shine 3.4s ease-in-out infinite}
+@keyframes shine{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
+
+.foot{align-self:center;margin:6px 0 34px;text-align:center;font-family:var(--f-hand);font-size:21px;line-height:1.2;color:var(--ink);text-wrap:balance;
+  background:var(--cream-hi);border:3px solid var(--ink);border-radius:16px 12px 16px 11px;padding:8px 18px 9px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-1.5deg)}
+
+/* шторка с героем */
+[hidden]{display:none!important}
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(22,17,15,.35);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0}}
+/* анимации раскрытия: карта «из пачки», блоки под ней всплывают по очереди */
+/* только у легендарных: при раскрытии по рамке слева направо проходит полоса света */
+.glare{position:absolute;inset:-5px;border-radius:23px;padding:8px;overflow:hidden;pointer-events:none;opacity:0;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.5) 45%,#fff 50%,rgba(255,255,255,.5) 55%,transparent 62%) 100% 0/300% 100% no-repeat;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+          mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.rise{animation:rise .6s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+.sheet-in{width:100%;max-width:480px;max-height:94%;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--t2);border-radius:26px 26px 0 0;
+  padding-block:16px calc(28px + env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:16px;animation:up .3s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes up{from{transform:translateY(40%);opacity:.4}}
+.bar-top{position:sticky;top:-16px;z-index:2;display:flex;justify-content:space-between;align-items:center;padding-top:2px}
+.close{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:var(--cream-hi);font-size:24px;font-weight:900;
+  cursor:pointer;box-shadow:3px 3px 0 var(--ink);color:var(--ink);line-height:1}
+.nav{display:flex;gap:8px}
+.nav button{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:var(--cream-hi);font-size:22px;font-weight:900;cursor:pointer;box-shadow:3px 3px 0 var(--ink);color:var(--ink);line-height:1}
+.nav button:disabled{opacity:.35;cursor:default}
+.flip{display:block;width:100%;max-width:400px;margin:0 auto;aspect-ratio:1372/2119;perspective:1400px;cursor:pointer}
+.flip:focus-visible{outline:3px solid var(--violet);outline-offset:4px;border-radius:18px}
+.flip-in{position:relative;display:block;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.flip img,.bface{position:absolute;inset:0;width:100%;height:100%;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:5px 6px 0 var(--ink)}
+.flip img{object-fit:cover}
+/* оборот: начало истории героя на фоне огненного облака */
+.bface{transform:rotateY(180deg);background:var(--t2);border:6px solid var(--cream-hi);
+  display:flex;flex-direction:column;gap:12px;padding:20px 16px 16px;overflow:hidden;box-sizing:border-box}
+.bface .lbl{align-self:flex-start;font-family:var(--f-hand);font-size:21px;line-height:1;background:var(--tape);padding:6px 14px 7px;transform:rotate(-2deg);box-shadow:-6px 4px 0 var(--orange-deep)}
+.bface .nm{font-family:var(--f-display);font-weight:900;font-size:clamp(24px,7.5vw,32px);line-height:1.05;text-transform:lowercase;text-align:center;
+  background:var(--cream-hi);border:4px solid var(--orange-deep);border-radius:999px;padding:4px 10px;overflow-wrap:anywhere}
+.bface .txt{flex:1;min-height:0;background:rgba(255,235,221,.94);border:4px solid var(--orange-deep);border-radius:20px 14px 22px 12px;
+  padding:16px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;overflow:auto}
+.bface .sub{font-family:var(--f-hand);font-size:17px;color:#fff;background:var(--violet);border-radius:10px;padding:2px 12px 3px;transform:rotate(-2deg)}
+/* навыки под картой */
+.skills{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.sk{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 10px;align-items:end}
+.sk .ico{grid-row:span 2;width:40px;height:40px;border-radius:50%;border:3px solid var(--orange-deep);display:grid;place-items:center;color:var(--orange-deep);background:#fff}
+.sk .ico svg{width:20px;height:20px}
+.sk .lbl{font-size:14px;font-weight:800;line-height:1;display:flex;justify-content:space-between;gap:8px}
+.sk .lbl b{font-variant-numeric:tabular-nums;color:var(--orange-deep)}
+.bar{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.bar i{height:22px;border:2px solid var(--ink);background:#fff}
+.bar i.on{background:var(--orange)}
+.bface .txt p{margin:0;font-size:clamp(16px,4.6vw,19px);line-height:1.5;font-weight:700;text-align:center;white-space:pre-line;text-wrap:balance}
+.bface.leg{background:linear-gradient(180deg,#FAFAFD 0%,#E4E3F4 45%,#9B9AD3 100%);border-color:#fff}
+.bface.leg .lbl{background:#F2C4DD;box-shadow:-6px 4px 0 var(--violet)}
+.bface.leg .nm,.bface.leg .txt{border-color:#8C8AD6;background:#fff}
+.bface.leg .nm{color:#2E2C6B}
+.hint{text-align:center;font-family:var(--f-hand);font-size:15px;margin-top:-6px}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.meta div{background:var(--cream-hi);border:3px dashed var(--orange-deep);border-radius:14px;padding:8px;text-align:center}
+.meta small{display:block;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.meta b{font-family:var(--f-display);font-size:22px;font-variant-numeric:tabular-nums}
+.box{background:var(--cream-hi);border:4px solid var(--orange-deep);border-radius:22px 16px 24px 14px;padding:22px 16px 14px;position:relative}
+.box p{margin:0 0 10px}.box p:last-child{margin:0}
+.desc{white-space:pre-line;text-align:center;font-weight:800}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* легендарные: блоки шторки в сиреневой гамме карты, как оборот */
+.sheet-in[data-r="5"] .box{border-color:#8C8AD6;background:#fff}
+.sheet-in[data-r="5"] .tape{background:#F2C4DD;box-shadow:-6px 4px 0 var(--violet)}
+.sheet-in[data-r="5"] .meta div{border-color:#8C8AD6;background:#fff}
+.sheet-in[data-r="5"] .meta small{color:#5A5890}
+.sheet-in[data-r="5"] .meta b{color:#2E2C6B}
+.sheet-in[data-r="5"] .sk .ico{border-color:#8C8AD6;color:var(--violet)}
+.sheet-in[data-r="5"] .sk .lbl b{color:var(--violet)}
+.sheet-in[data-r="5"] .bar i.on{background:#8C8AD6}
+.sheet-in[data-r="5"] .desc,.sheet-in[data-r="5"] .story p{color:#2E2C6B}
+</style>
+
+<main class="page">
+  <section class="intro" aria-labelledby="h-col">
+    <h1 class="tape" id="h-col">коллекция героев</h1>
+    <p>Найди своего героя! Нажми на карту, чтобы перевернуть её и прочитать историю.</p>
+    <ul class="legend" id="legend"></ul>
+  </section>
+  <div id="tiers"></div>
+  <p class="foot">Собери все 15 карт коллекции!</p>
+</main>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="c-title">
+  <div class="sheet-in" id="sheet-in"></div>
+</div>
+
+<script>
+const CHARACTERS = [{"id":"povarenok","name":"котёнок поварёнок","rarity":1,"print":80,"desc":"Обладает большой силой помешивания супа. Любит готовить, но не факт, что умеет… Если берётся за черпак - лучше отойти подальше.","power":5,"defense":2,"speed":2,"special":{"name":"удар черпаком","value":7},"chance":0.32,"lore":["С самого детства Котёнок Поварёнок мечтал стать величайшим шеф-поваром в истории. Пока остальные котята гонялись за клубками, он часами сидел перед плитой, пытаясь приготовить идеальный суп. Правда, никто так и не решился попробовать его первые кулинарные шедевры.","Однажды Котёнок поступил в престижную кулинарную академию, но был отчислен уже на третьем занятии. Официальная причина была в том, что он нарушил технику безопасности. Неофициальная — преподаватели до сих пор не могут объяснить, каким образом он умудрился поджечь воду.","Но неудачи не смогли его сломить, а лишь укрепили его веру в собственный талант. Теперь Поварёнок путешествует по миру, собирает редкие ингредиенты и совершенствует легендарный удар черпаком. Уверяет, что это исключительно кулинарная техника, хотя противники после знакомства с ней обычно оказываются на полу.","Недавно Котёнок объявил о работе над своим главным блюдом — супом, способным изменить мир. Что именно он собирается изменить, пока неизвестно. Возможно, лучше и не спрашивать."],"weak":"Не может пройти мимо плиты. Предложи ему что-нибудь приготовить — и он забудет, что вообще-то шёл на битву.","card":"assets/cards/povarenok.webp","thumb":"assets/thumbs/povarenok.webp"},{"id":"krysyunchik","name":"крысюнчик","rarity":3,"print":60,"desc":"Самый умный в комнате, и он это знает. Обладает особой способностью придумывать любое правило на ходу. Спорить бесполезно: правило уже вступило в силу.","power":3,"defense":2,"speed":6,"special":{"name":"крысиное правило","value":6},"chance":0.18,"lore":["С самого рождения Крысюнчик обладал выдающимся интеллектом и совершенно невыносимым характером. Пока другие изучали правила игр, он задавался более важным вопросом: кто вообще разрешил этим правилам существовать?","Всё изменилось после одного детского спора, который Крысюнчик впервые в жизни проиграл. Вместо того чтобы признать поражение, он заявил, что правила были составлены некорректно, а затем создал собственный свод законов. В новом своде поражение Крысюнчика считалось технической ошибкой, а его победа — обязательным условием любой игры.","Со временем способности Крысюнчика вышли далеко за пределы обычных споров. Теперь достаточно произнести «Крысиное правило!», чтобы окружающие оказались вынуждены подчиняться очередному нелепому закону. Например, прыгать на одной лапе или обращаться к нему исключительно «Ваше Крысейшество»."],"weak":"Не умеет проигрывать. Если правило сработало против него, он тут же объявляет его недействительным.","card":"assets/cards/krysyunchik.webp","thumb":"assets/thumbs/krysyunchik.webp"},{"id":"francesco","name":"франческо","rarity":2,"print":75,"desc":"Добрый и отзывчивый, пока не впадает в горячку. Мастерски обращается с гаечным ключом и способен починить почти всё. Или сломать. Зависит от настроения.","power":6,"defense":4,"speed":6,"special":{"name":"трубо","value":7},"chance":0.3,"lore":["Франческо впервые взял в руки гаечный ключ в раннем детстве, и с тех пор практически с ним не расстаётся.","Несмотря на сомнительные результаты некоторых экспериментов, Франческо действительно талантливый механик. В свободное время подрабатывает сантехником. Он способен починить практически любое устройство, даже если сам не понимает, как оно работает. Но у его мастерства есть небольшой недостаток: в приступе горячки Франческо перестаёт различать ремонт и модернизацию. Франческо привык к тяжелой работе, поэтому обладает достаточной силой, чтобы поднять мешок картошки на десятый этаж, и даже не вспотеть. Особая способность \"Трубо\" позволяет ему повелевать любыми предметами, которые напоминают трубы."],"weak":"В горячке перестаёт отличать ремонт от разрушения. Чинит всё подряд, даже то, что не было сломано.","card":"assets/cards/francesco.webp","thumb":"assets/thumbs/francesco.webp"},{"id":"myakish","name":"мякиш","rarity":3,"print":60,"desc":"Большую часть времени просто стоит и смотрит на окружающих своими огромными глазами. Никто не знает, о чём он думает. Возможно, ни о чём, или как захватить весь мир","power":7,"defense":7,"speed":1,"special":{"name":"интеллект (не ии)","value":2},"chance":0.18,"lore":["Никто не знает, когда появился Мякиш. Однажды он просто оказался посреди комнаты и начал смотреть на окружающих своими огромными глазами. Первые несколько часов все пытались выяснить, кто он такой и что ему нужно. Через сутки сдались и решили, что получить от него ответы будет невозможно.","Мякиш практически не разговаривает, редко двигается и не проявляет особого интереса к происходящему. Однако с ним связаны странные события. Однажды рядом с ним самостоятельно открылся запертый сейф. В другой раз целая армия противников внезапно развернулась и ушла, после того как Мякиш посмотрел в её сторону. Одно известно точно: сдвинуть Мякиша с места практически невозможно. Еще один занимательный факт в том, что пока другие не смотрят, он может передвигаться так быстро, что оказывается в соседней комнате за считаные секунды.","Некоторые исследователи считают, что Мякиш обладает интеллектом, превосходящим возможности любого живого существа. Ходят слухи, что когда-нибудь он произнесёт своё первое слово и изменит судьбу всего мира."],"weak":"Никто не знает. Мякиш тоже не знает. Возможно, это и есть его слабость.","card":"assets/cards/myakish.webp","thumb":"assets/thumbs/myakish.webp"},{"id":"zhzhikh","name":"жжих","rarity":3,"print":60,"desc":"Маленький огненный чертёнок который унаследовал свою силу от деда.\n\"Кто ты по гороскопу? Огонь?\"\n- Я пожар!!!","power":5,"defense":6,"speed":4,"special":{"name":"огненный чих","value":7},"chance":0.18,"lore":["Жжих родился в древней семье огненных существ, чьи предки веками наводили ужас на целые королевства. Особенно прославился его дед — легендарный демон пламени, который однажды случайно уничтожил целую крепость, просто пытаясь разогреть себе ужин.","С детства Жжих мечтал превзойти знаменитого родственника. Он тренировался управлять огнём, изучал древние техники и старательно развивал свою главную способность \"Огненный чих\". Семья гордится его потенциалом, но на всякий случай держит рядом ведро воды. Сам Жжих воспринимает происходящее как естественный этап становления великого повелителя огня.","Жжих путешествует по миру, чтобы заслужить звание настоящего наследника огненной династии. Он уверен, что однажды совершит подвиг, достойный легенд."],"weak":"Чихает от перца — и всё вокруг загорается. Семья держит рядом ведро воды не просто так.","card":"assets/cards/zhzhikh.webp","thumb":"assets/thumbs/zhzhikh.webp"},{"id":"makvill","name":"маквилл","rarity":2,"print":75,"desc":"Никогда не торопится и почему-то всегда оказывается на месте раньше всех. Дом носит с собой, поэтому в гостях почти не бывает. \"Тише едешь — дальше будешь\".","power":1,"defense":4,"speed":7,"special":{"name":"суперскорость","value":5},"chance":0.3,"lore":["Маквилл с самого детства придерживался одной простой философии: \"Тише едешь — дальше будешь\". Пока другие соревновались в скорости, он спокойно занимался своими делами, наслаждался жизнью и никуда не торопился.","Однажды Маквилл решил отправиться в большое путешествие. Друзья посмеялись над его планами, ведь с такой скоростью он доберётся до соседнего города только через несколько лет. Каково же было их удивление, когда Маквилл встретил их у городских ворот уже на следующее утро.","С тех пор вокруг него ходит множество слухов. Одни считают, что Маквилл способен управлять временем. Другие предполагают, что он знает тайные короткие пути, недоступные остальным существам. Сам герой лишь загадочно улыбается и продолжает свой неторопливый путь.","Свой дом Маквилл всегда носит с собой, поэтому понятия «возвращаться домой» для него не существует. Говорят, внутри его жилища хранятся карты мест, которых ещё нет на свете."],"weak":"Совсем не умеет спешить. Скажешь ему «быстрее» — обидится и спрячется в домик.","card":"assets/cards/makvill.webp","thumb":"assets/thumbs/makvill.webp"},{"id":"zubchik","name":"зубчик-трезубчик","rarity":2,"print":75,"desc":"Тот самый зуб, который ты потерял самым первым в детстве. Гордо размахивает трезубцем, хотя выглядит так, будто его можно погладить и положить в карман.","power":7,"defense":7,"speed":1,"special":{"name":"королевский кусь","value":5},"chance":0.3,"lore":["Когда-то Зубчик-Трезубчик был самым обычным молочным зубом. Как и полагается молочным зубам, его положили под подушку, а на следующее утро он испарился. Но мало кто знает, что после исчезновения его история только началась.","Оказавшись в загадочном новом мире Зубчик понял, что рождён для великих свершений. Он мечтал занять трон и прославить своё имя на века. К сожалению, местные правители не оценили его амбиций. После попытки объявить себя главным зубом королевства Зубчик был изгнан.","Но даже после этого герой не сдался. Вооружившись трезубцем, он основал собственное государство в забытом уголке мира. Первым делом провозгласил себя королём, затем учредил праздничные выходные в свою честь и приказал построить величественный дворец.","Проблема заключалась лишь в том, что подданных у нового короля пока не было. Зубчик решил начать с малого и назначил придворным советником камень. Спустя несколько дней камень был отправлен в отставку за плохую работу.","Теперь Зубчик путешествует по миру в поисках достойных рыцарей, сокровищ и новых территорий для своего королевства."],"weak":"Панически боится зубной феи. А ещё у короля нет ни одного подданного: единственного советника-камня он сам уволил.","card":"assets/cards/zubchik.webp","thumb":"assets/thumbs/zubchik.webp"},{"id":"gulka","name":"гулька","rarity":4,"print":55,"desc":"Когда-то давно его подвергли пыткам хлебными крошками. После этого он стал сильным и неукротимым. Отобрал у местных злодеев все семечки.","power":6,"defense":3,"speed":7,"special":{"name":"бомбардиро","value":6},"chance":0.11,"lore":["Гулька был обычным городским голубем. Он жил беззаботной жизнью, клевал семечки на площадях и мечтал лишь об одном — чтобы люди перестали кормить его хлебом с подозрительным сроком годности. Но однажды всё изменилось.","Попав в лапы местных злодеев, Гулька подвергся жестоким пыткам хлебными крошками. Его заставляли считать зёрнышки от тысячи до семи, а затем начинать сначала. День за днём его мучители пытались сломить его дух, но добились совершенно противоположного результата.","В какой-то момент что-то внутри Гульки надломилось. Его перья побелели, взгляд стал холодным, а из глубины души пробудилась невероятная сила.","Первым делом Гулька отобрал у мучителей все запасы семечек. Затем исчез, оставив после себя лишь несколько чёрных перьев и зловещую надпись: «1000 − 7 = ?». Годы тренировок превратили его в настоящую боевую машину. Гулька овладел искусством воздушных атак и разработал легендарную технику «Бомбардиро», после которой противники ещё долго боялись смотреть в небо. С тех пор по городу начали распространяться слухи о таинственном герое, который появляется на крышах с наступлением сумерек. Говорят, его можно узнать по маске с устрашающим клювом и одному горящему красному глазу. Он контролирует стратегические запасы семечек и поддерживает порядок на площадях. Однако за грозной внешностью всё ещё скрывается тот самый голубь, который просто хотел спокойно поесть."],"weak":"Насыпь перед ним горсть семечек — и миссия забыта. Голубь всегда остаётся голубем.","card":"assets/cards/gulka.webp","thumb":"assets/thumbs/gulka.webp"},{"id":"alfa","name":"альфа","rarity":1,"print":80,"desc":"Тот самый антагонист из детства, который в погоне за добором белка не брезговал применять весьма специфичные методы.\nСейчас остепенился, питается греческим йогуртом и творогом. В цирке не выступает","power":7,"defense":7,"speed":2,"special":{"name":"ауф","value":6},"chance":0.32,"lore":["В далёком прошлом Альфа был одним из самых известных злодеев. Его боялись дети, взрослые и продавцы спортивного питания. Одержимый идеей стать самым сильным существом в мире, он был готов на любые методы ради достижения идеальной физической формы.","Его главной целью был белок. Альфа постоянно искал новые способы получить заветные граммы протеина, а его методы становились всё более изобретательными и сомнительными. Годы шли, и Альфа постепенно устал от бесконечной погони за силой. После одного особенно неудачного приключения он задумался о своей жизни и решил оставить тёмное прошлое позади.","Теперь Альфа ведёт размеренную жизнь, занимается спортом, следит за питанием и предпочитает греческий йогурт любым сомнительным источникам протеина. Он даже научился контролировать свой грозный «Ауф», используя его исключительно в крайних случаях."],"weak":"Пропустил приём белка — и весь грозный вид куда-то пропадает. Без баночки греческого йогурта в бой не идёт.","card":"assets/cards/alfa.webp","thumb":"assets/thumbs/alfa.webp"},{"id":"merchelina","name":"мерчелина","rarity":1,"print":80,"desc":"Никуда не выходит без своей сумки с мерчом. Шарит за 3333 фандома и умеет метать значки на дальние расстояния.","power":4,"defense":2,"speed":6,"special":{"name":"отсылка","value":4},"chance":0.32,"lore":["Свою первую коллекционную вещицу Мерчелина получила ещё в детстве. Это был маленький значок с персонажем, имя которого она давно забыла. Но именно тогда она поняла: обычные вещи могут хранить целые истории.","С годами её увлечение превратилось в настоящую страсть. Мерчелина изучила тысячи фандомов, научилась различать редчайшие издания с одного взгляда и приобрела невероятную способность находить отсылки буквально везде.","В случае опасности Мерчелина использует для обороны метание значков или боевую технику «Отсылка», заставляя противника бесконтрольно смеяться над шуткой, которую понимают только настоящие знатоки фандома. Пока враг пытается вспомнить, откуда цитата, она успевает нанести удар."],"weak":"Увидит редкий значок — и забывает обо всём на свете. Чтобы её отвлечь, достаточно шепнуть «лимитка».","card":"assets/cards/merchelina.webp","thumb":"assets/thumbs/merchelina.webp"},{"id":"miku-maus","name":"мику-мауз","rarity":5,"print":45,"desc":"Мировая поп-звезда, которую никто не помнит. Поёт на частотах, доступных не каждому человеческому уху. Утверждает, что круглые уши - это часть сценического образа.","power":3,"defense":2,"speed":2,"special":{"name":"ультразвук","value":7},"chance":0.07,"lore":["Мику-Мауз предпочитает называть себя живой легендой. Она убеждена, что её песни знают наизусть миллионы поклонников, а билеты на концерты раскупают за считаные секунды. Правда, ни одного концерта она пока не проводила, а количество слушателей на музыкальных площадках подозрительно напоминает число её собственных аккаунтов. С самого детства Мику-Мауз мечтала стать как ее любимые айдолы. Она разработала собственный сценический образ, придумала фан-клуб и даже начала раздавать автографы. Отсутствие реальных поклонников ничуть не смущает Мику-Мауз. Она уверена, что её невероятная популярность просто не позволяет ей замечать обычных людей. Если кто-то утверждает, что никогда о ней не слышал, певица снисходительно улыбается и отвечает: «Ничего страшного, не всем дано разбираться в современной музыке». Несмотря на сомнительную известность, Мику-Мауз действительно обладает необыкновенным голосом. Она способна брать невероятно высокие ноты, управлять звуковыми волнами и буквально сбивать противников с ног своими выступлениями. Сейчас Мику-Мауз готовится к своему первому мировому турне. Она уже составила расписание, придумала название тура и заказала огромную партию мерча с собственным изображением."],"weak":"Скажи, что никогда о ней не слышал, — и она потеряет дар речи. Ненадолго.","card":"assets/cards/miku-maus.webp","thumb":"assets/thumbs/miku-maus.webp"},{"id":"krio","name":"крио","rarity":4,"print":55,"desc":"После падения клана скитается по миру вместе со своим прислужником. Его цель — возродить клан, принимая в ряды только сильных и достойных, а также отомстить всем, кто встретится на пути.","power":7,"defense":4,"speed":3,"special":{"name":"темная магия","value":7},"chance":0.11,"lore":["Когда-то клан Крио был одним из самых могущественных объединений в мире. Его воины владели древней тёмной магией, а имя клана внушало уважение и страх даже самым сильным противникам.","Но однажды всё изменилось. В результате загадочных событий некогда великое объединение пало, а его участники исчезли. Крио, один из немногих выживших, поклялся восстановить былое могущество своего рода и отомстить всем, кто был причастен к его падению.","Вместе с верным прислужником Люсином он отправился в долгое путешествие.","Крио обладает невероятной силой и прекрасно владеет тёмной магией. Однако его гордость и вспыльчивость нередко становятся причиной совершенно ненужных конфликтов. Даже обычная просьба уступить дорогу может превратиться в испытание чести с обещанием вечной мести.","Несмотря на все трудности, Крио искренне верит, что однажды вернёт своему клану величие."],"weak":"Очень обидчивый: даже просьба уступить дорогу превращается у него в клятву вечной мести.","card":"assets/cards/krio.webp","thumb":"assets/thumbs/krio.webp"},{"id":"operator","name":"оператор","rarity":1,"print":80,"desc":"Всегда остаётся за кадром, но почему-то оказывается в центре всех событий. Видел такое, что пришлось удалить исходники. Когда он за камерой, не может пострадать","power":1,"defense":7,"speed":1,"special":{"name":"вспышка","value":3},"chance":0.32,"lore":["Однажды Оператор снимал на видео обычную прогулку своих друзей, и осознал, что хочет посвятить этому всю свою жизнь. Оператора можно встретить практически в любом месте, где разворачиваются интересные события. За годы работы он стал свидетелем величайших побед, катастрофических поражений, древних тайн и невероятно неловких ситуаций. Он невероятно быстро может появиться в нужное время и в нужном месте. Говорят, в его архивах хранится достаточно компромата, чтобы разрушить репутацию любого великого героя.","Оператор обладает странной особенностью: пока он находится за камерой, никакая опасность не способна причинить ему вред. Враги промахиваются, ловушки не срабатывают, а падающие обломки неизменно обходят его стороной. Но если герою грозит большая опасность, он использует свою яркую вспышку, чтобы убежать."],"weak":"Неуязвим, только пока снимает. Сядет батарейка — и он самый беззащитный герой в мире.","card":"assets/cards/operator.webp","thumb":"assets/thumbs/operator.webp"},{"id":"lyusin","name":"люсин","rarity":2,"print":75,"desc":"Верный прислужник Крио и, по совместительству, единственный, кто знает, куда они вообще идут. Молча следует за хозяином, разгребая последствия его великих планов.","power":4,"defense":7,"speed":3,"special":{"name":"призрачный вихрь","value":6},"chance":0.3,"lore":["Люсин начал службу под руководством Крио еще с малых лет. После падения их клана он поклялся следовать за Крио до самого конца, защищать его честь и помогать в любых делах. Пока Крио произносит величественные речи и строит планы мирового масштаба, Люсин занимается реальными проблемами: добывает провизию, ищет дорогу, договаривается о ночлеге. Несмотря на спокойный характер, Люсин является опытным бойцом. Его способность «Призрачный вихрь» позволяет отбиваться от противников и защищать Крио даже в самых опасных ситуациях."],"weak":"Никогда не спорит с Крио, даже когда тот ведёт всех не туда. Верность — его сила и его слабость.","card":"assets/cards/lyusin.webp","thumb":"assets/thumbs/lyusin.webp"},{"id":"katto","name":"катто","rarity":5,"print":45,"desc":"Бывшая ученица боевого ордена, променявшая великие сражения на большую тарелку лапши. Утверждает, что завязала с драками. (Но это не точно)","power":6,"defense":4,"speed":6,"special":{"name":"чжао","value":7},"chance":0.07,"lore":["Раньше Катто была одной из самых талантливых учениц древнего боевого ордена. Её способности поражали даже опытных наставников, а скорость и мастерство позволяли побеждать противников, которые превосходили её по силе.","С самого детства Катто готовили к великим сражениям. День за днём она совершенствовала боевые техники, изучала философию ордена и следовала строгим правилам. Все были уверены, что однажды ей предстоит стать легендарной воительницей.","Но судьба распорядилась иначе. Во время одной из тренировочных миссий Катто случайно забрела в небольшую лапшичную на окраине города. Там ей подали самую вкусную лапшу, которую она когда-либо пробовала. В этот момент героиня осознала, что впервые за долгие годы чувствует себя по-настоящему счастливой. Вскоре после этого Катто покинула орден, оставив позади годы тренировок и надежды наставников. Теперь она путешествует по миру в поисках идеальной лапши, пробует необычные блюда и старается не ввязываться в конфликты.","Однако оставить боевое прошлое оказалось сложнее, чем она рассчитывала. Старые враги периодически выходят на её след, а мастера ордена до сих пор не могут смириться с потерей одной из лучших учениц.","Катто утверждает, что больше никогда не возьмётся за оружие. Но свидетели рассказывают, что однажды она в одиночку победила целую банду разбойников"],"weak":"Запах хорошей лапши. Учует лапшичную — и бой окончен, даже не начавшись.","card":"assets/cards/katto.webp","thumb":"assets/thumbs/katto.webp"}];
+const RARITY = {1:"обычная",2:"необычная",3:"редкая",4:"эпическая",5:"легендарная"};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+// по возрастанию редкости, внутри — порядок таблицы
+const sorted = CHARACTERS.map((c,i)=>({...c,i})).sort((a,b)=>a.rarity-b.rarity||a.i-b.i);
+const legend = document.getElementById("legend"), tiers = document.getElementById("tiers");
+let shown = 0;
+for (let r=1;r<=5;r++){
+  const list = sorted.filter(c=>c.rarity===r); if(!list.length) continue;
+  const chance = Math.round(list[0].chance*100);
+  legend.insertAdjacentHTML("beforeend",'<li data-r="'+r+'">'+'★'.repeat(r)+' <b>'+chance+'%</b></li>');
+  tiers.insertAdjacentHTML("beforeend",
+    '<section class="tier" data-r="'+r+'"><h2 class="tier-h"><span class="s">'+'★'.repeat(r)+'</span> '+RARITY[r]+'<small>шанс '+chance+'%</small></h2><div class="grid">'+
+    list.map(c=>{ const first = ++shown <= 4;
+      return '<button class="card" data-id="'+c.id+'" aria-label="'+esc(cap(c.name))+', '+RARITY[r]+'"><img src="'+c.thumb+'" alt="" width="520" height="803" decoding="async"'+(first?' fetchpriority="high"':' loading="lazy"')+'></button>'; }).join('')+
+    '</div></section>');
+}
+
+const sheet = document.getElementById("sheet"), inner = document.getElementById("sheet-in");
+let current = -1, lastFocus = null;
+const ICONS = {
+  power:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 0 2 1 3 2 3 0-3-1-5 1-8z"/></svg>',
+  def:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/></svg>',
+  spd:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2L4 14h6l-2 8 10-12h-6z"/></svg>',
+  sp:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 6.4L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.6z"/></svg>'
+};
+// шкала навыка: 7 квадратиков, как на карте
+const skill = (icon, label, n) => '<div class="sk"><span class="ico">'+ICONS[icon]+'</span><span class="lbl">'+esc(label)+'<b>'+(n==null?'?':n)+'/7</b></span>'+
+  '<span class="bar">'+Array.from({length:7},(_,i)=>'<i class="'+(i<(n||0)?'on':'')+'"></i>').join('')+'</span></div>';function openCard(id, opts){
+  opts = opts || {};
+  const k = sorted.findIndex(c=>c.id===id); if(k<0) return;
+  const c = sorted[k]; current = k;
+  if (sheet.hidden) lastFocus = document.activeElement;
+  inner.innerHTML =
+    '<div class="bar-top"><div class="nav"><button id="prev" aria-label="Предыдущий герой"'+(k===0?' disabled':'')+'>‹</button><button id="next" aria-label="Следующий герой"'+(k===sorted.length-1?' disabled':'')+'>›</button></div>'+
+    '<button class="close" id="close" aria-label="Закрыть">×</button></div>'+
+    '<h2 id="c-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">'+esc(cap(c.name))+'</h2>'+
+    '<div class="flip" id="flip" role="button" tabindex="0" aria-label="Перевернуть карту"><span class="flip-in"><img src="'+c.card+'" alt="Карта: '+esc(cap(c.name))+'">'+(c.rarity===5?'<span class="glare"></span>':'')+
+      '<span class="bface'+(c.rarity===5?' leg':'')+'"><span class="lbl">секрет героя</span>'+
+      '<span class="txt"><span class="sub">слабое место</span><p>'+esc(c.weak||'Пока никто не знает…')+'</p></span></span></span></div>'+
+    '<div class="hint">↻ переверни карту — там секрет героя</div>'+
+    '<section class="box"><h3 class="tape" style="font-size:21px">описание</h3><p class="desc">'+esc(c.desc)+'</p></section>'+
+    '<section class="box"><h3 class="tape" style="font-size:21px">навыки</h3><div class="skills">'+
+      skill("power","сила",c.power)+skill("def","защита",c.defense)+skill("spd","скорость",c.speed)+
+      skill("sp",c.special?c.special.name:"секретная способность",c.special?c.special.value:null)+'</div></section>'+
+    '<div class="meta"><div><small>Тираж</small><b>'+c.print+' шт</b></div><div><small>Шанс выпадения</small><b>'+Math.round(c.chance*100)+'%</b></div></div>'+
+    '<section class="box" id="story"><h3 class="tape" style="font-size:21px">история</h3>'+c.lore.map(p=>'<p>'+esc(p)+'</p>').join('')+'</section>';
+  inner.dataset.r = c.rarity; inner.style.animation = ""; sheet.hidden = false; inner.scrollTop = 0; document.body.style.overflow = "hidden";
+  animateOpen(opts);
+  document.getElementById("close").focus({preventScroll:true});
+  try{ history.replaceState(null,"","#"+id); }catch(e){}
+  track("open_card", id); warm(k);
+}
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function animateOpen(opts){
+  if (reduceMotion) return;
+  inner.querySelectorAll(".hint,.box,.meta").forEach((el,i)=>{ el.classList.add("rise"); el.style.animationDelay = (0.55 + i*0.2)+"s"; });
+  const f = document.getElementById("flip");
+  if (!opts.dir) {
+    // «карта из пачки»: поднимается снизу с наклоном и пружинит на место
+    f.animate([{transform:"translateY(70px) scale(.72) rotate(-7deg)", opacity:0},
+               {transform:"translateY(-8px) scale(1.03) rotate(1.5deg)", opacity:1, offset:.68},
+               {transform:"none", opacity:1}],
+              {duration:620, delay:90, easing:"cubic-bezier(.25,.8,.3,1)", fill:"backwards"});
+  } else if (opts.dir) {
+    // листание стрелками: новая карта въезжает с той стороны, куда листают
+    f.animate([{transform:"translateX("+(opts.dir*55)+"%) rotate("+(opts.dir*6)+"deg)", opacity:0},{transform:"none", opacity:1}],
+              {duration:380, easing:"cubic-bezier(.2,.85,.25,1)"});
+  }
+  // у легендарных по рамке слева направо проходит полоса света, когда карта встала
+  const gl = f.querySelector(".glare");
+  if (gl) gl.animate([{backgroundPosition:"100% 0", opacity:1},{backgroundPosition:"0% 0", opacity:1}],
+                     {duration:900, delay: opts.dir ? 380 : 600, easing:"cubic-bezier(.45,.05,.35,1)"});
+}
+// заранее подгружаем крупные карты соседних героев, чтобы стрелки листали без задержки
+function warm(k){ [k-1,k+1].forEach(j=>{ if(sorted[j]) (new Image()).src = sorted[j].card; }); }
+function closeCard(){
+  sheet.hidden = true; document.body.style.overflow = ""; current = -1;
+  try{ history.replaceState(null,"",location.pathname); }catch(e){}
+  if(lastFocus) lastFocus.focus();
+}
+tiers.addEventListener("click", e=>{ const t=e.target.closest(".card"); if(t) openCard(t.dataset.id); });
+sheet.addEventListener("click", e=>{
+  if(e.target===sheet || e.target.closest("#close")) return closeCard();
+  if(e.target.closest("#prev") && current>0) return openCard(sorted[current-1].id, {dir:-1});
+  if(e.target.closest("#next") && current<sorted.length-1) return openCard(sorted[current+1].id, {dir:1});
+  const f=e.target.closest("#flip"); if(f) flipCard(f);
+});
+function flipCard(f){ if(f.classList.toggle("flipped")) track("flip_card", sorted[current].id); }
+sheet.addEventListener("keydown", e=>{
+  if((e.key==="Enter"||e.key===" ") && e.target.id==="flip"){ e.preventDefault(); flipCard(e.target); }
+});
+document.addEventListener("keydown", e=>{
+  if(sheet.hidden) return;
+  if(e.key==="Escape") closeCard();
+  if(e.key==="ArrowLeft" && current>0) openCard(sorted[current-1].id, {dir:-1});
+  if(e.key==="ArrowRight" && current<sorted.length-1) openCard(sorted[current+1].id, {dir:1});
+});
+
+// аналитика: заглушка под Яндекс Метрику — впишите номер счётчика вместо 0
+function track(event, label){ try{ window.ym && window.ym(0,"reachGoal",event,{label}); }catch(e){} }
+
+// ссылка вида …#gulka сразу открывает героя (для превью в Таплинке и QR на конкретной карте)
+const start = (location.hash||"").slice(1);
+if (CHARACTERS.some(c=>c.id===start)) openCard(start);
+</script>
+
+</body>
+</html>
