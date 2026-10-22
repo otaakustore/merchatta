@@ -135,8 +135,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 
 /* шторка с героем */
 [hidden]{display:none!important}
-.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(22,17,15,.35);
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .25s ease}
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(22,17,15,.35);animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0}}
 /* анимации раскрытия: карта «из пачки», блоки под ней всплывают по очереди */
 /* только у легендарных: при раскрытии по рамке слева направо проходит полоса света */
@@ -151,8 +150,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   background:var(--t2);border-radius:26px 26px 0 0;
   padding-block:16px calc(28px + env(safe-area-inset-bottom,0px));
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  display:flex;flex-direction:column;gap:16px;animation:up .3s cubic-bezier(.2,.9,.3,1.15)}
-@keyframes up{from{transform:translateY(40%);opacity:.4}}
+  display:flex;flex-direction:column;gap:16px;animation:up .45s cubic-bezier(.2,.8,.3,1)}
+@keyframes up{from{transform:translateY(18%);opacity:0}}
 .bar-top{position:sticky;top:-16px;z-index:2;display:flex;justify-content:space-between;align-items:center;padding-top:2px}
 .close{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:var(--cream-hi);font-size:24px;font-weight:900;
   cursor:pointer;box-shadow:3px 3px 0 var(--ink);color:var(--ink);line-height:1}
@@ -287,11 +286,14 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function animateOpen(opts, im){
   if (reduceMotion) return;
   const f = document.getElementById("flip");
-  f.style.visibility = "hidden";
-  // анимацию начинаем, когда картинка карты готова (обычно сразу), но не ждём дольше 0,4 с
+  // шторка и карта стартуют вместе: если картинка уже есть (обычно да) — сразу,
+  // иначе шторка ждёт её, но не дольше 0,4 с
+  if (im.complete && im.naturalWidth) return runOpen(opts, f);
+  inner.style.visibility = "hidden";
   Promise.race([im.decode().catch(()=>{}), new Promise(r=>setTimeout(r,400))]).then(()=>{
     if (!f.isConnected) return;
-    f.style.visibility = "";
+    inner.style.visibility = "";
+    if (!opts.dir) { inner.style.animation = "none"; void inner.offsetWidth; inner.style.animation = ""; }
     runOpen(opts, f);
   });
 }
@@ -302,7 +304,7 @@ function runOpen(opts, f){
     f.animate([{transform:"translateY(70px) scale(.72) rotate(-7deg)", opacity:0},
                {transform:"translateY(-8px) scale(1.03) rotate(1.5deg)", opacity:1, offset:.68},
                {transform:"none", opacity:1}],
-              {duration:620, delay:90, easing:"cubic-bezier(.25,.8,.3,1)", fill:"backwards"});
+              {duration:560, easing:"cubic-bezier(.25,.8,.3,1)", fill:"backwards"});
   } else if (opts.dir) {
     // листание стрелками: новая карта въезжает с той стороны, куда листают
     f.animate([{transform:"translateX("+(opts.dir*55)+"%) rotate("+(opts.dir*6)+"deg)", opacity:0},{transform:"none", opacity:1}],
