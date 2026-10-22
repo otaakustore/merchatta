@@ -264,7 +264,7 @@ const skill = (icon, label, n) => '<div class="sk"><span class="ico">'+ICONS[ico
     '<div class="bar-top"><div class="nav"><button id="prev" aria-label="Предыдущий герой"'+(k===0?' disabled':'')+'>‹</button><button id="next" aria-label="Следующий герой"'+(k===sorted.length-1?' disabled':'')+'>›</button></div>'+
     '<button class="close" id="close" aria-label="Закрыть">×</button></div>'+
     '<h2 id="c-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">'+esc(cap(c.name))+'</h2>'+
-    '<div class="flip" id="flip" role="button" tabindex="0" aria-label="Перевернуть карту"><span class="flip-in"><img src="'+c.card+'" alt="Карта: '+esc(cap(c.name))+'">'+(c.rarity===5?'<span class="glare"></span>':'')+
+    '<div class="flip" id="flip" role="button" tabindex="0" aria-label="Перевернуть карту"><span class="flip-in"><img src="'+c.thumb+'" alt="Карта: '+esc(cap(c.name))+'">'+(c.rarity===5?'<span class="glare"></span>':'')+
       '<span class="bface'+(c.rarity===5?' leg':'')+'"><span class="lbl">секрет героя</span>'+
       '<span class="txt"><span class="sub">слабое место</span><p>'+esc(c.weak||'Пока никто не знает…')+'</p></span></span></span></div>'+
     '<div class="hint">↻ переверни карту — там секрет героя</div>'+
@@ -275,16 +275,28 @@ const skill = (icon, label, n) => '<div class="sk"><span class="ico">'+ICONS[ico
     '<div class="meta"><div><small>Тираж</small><b>'+c.print+' шт</b></div><div><small>Шанс выпадения</small><b>'+Math.round(c.chance*100)+'%</b></div></div>'+
     '<section class="box" id="story"><h3 class="tape" style="font-size:21px">история</h3>'+c.lore.map(p=>'<p>'+esc(p)+'</p>').join('')+'</section>';
   inner.dataset.r = c.rarity; inner.style.animation = ""; sheet.hidden = false; inner.scrollTop = 0; document.body.style.overflow = "hidden";
-  animateOpen(opts);
+  const im = inner.querySelector("#flip img"), full = new Image();
+  full.src = c.card;
+  full.decode().then(()=>{ if (sorted[current] === c) im.src = c.card; }).catch(()=>{});
+  animateOpen(opts, im);
   document.getElementById("close").focus({preventScroll:true});
   try{ history.replaceState(null,"","#"+id); }catch(e){}
   track("open_card", id); warm(k);
 }
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function animateOpen(opts){
+function animateOpen(opts, im){
   if (reduceMotion) return;
-  inner.querySelectorAll(".hint,.box,.meta").forEach((el,i)=>{ el.classList.add("rise"); el.style.animationDelay = (0.55 + i*0.2)+"s"; });
   const f = document.getElementById("flip");
+  f.style.visibility = "hidden";
+  // анимацию начинаем, когда картинка карты готова (обычно сразу), но не ждём дольше 0,4 с
+  Promise.race([im.decode().catch(()=>{}), new Promise(r=>setTimeout(r,400))]).then(()=>{
+    if (!f.isConnected) return;
+    f.style.visibility = "";
+    runOpen(opts, f);
+  });
+}
+function runOpen(opts, f){
+  inner.querySelectorAll(".hint,.box,.meta").forEach((el,i)=>{ el.classList.add("rise"); el.style.animationDelay = (0.55 + i*0.2)+"s"; });
   if (!opts.dir) {
     // «карта из пачки»: поднимается снизу с наклоном и пружинит на место
     f.animate([{transform:"translateY(70px) scale(.72) rotate(-7deg)", opacity:0},
