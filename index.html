@@ -130,7 +130,17 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.6) 45%,transparent 60%) 0 0/250% 100%;animation:shine 3.4s ease-in-out infinite}
 @keyframes shine{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
 
-.foot{align-self:center;margin:6px 0 34px;text-align:center;font-family:var(--f-hand);font-size:21px;line-height:1.2;color:var(--ink);text-wrap:balance;
+/* подвал с реквизитами: без плотной подложки — фон мягко светлеет к низу, текст тёмный с лёгким светлым ореолом для читаемости */
+.site-foot{margin:110px calc(-1 * var(--gr)) 0 calc(-1 * var(--gl));padding:56px var(--gr) calc(22px + env(safe-area-inset-bottom,0px)) var(--gl);
+  background:linear-gradient(180deg,rgba(255,236,222,0) 0%,rgba(255,236,222,.5) 45%,rgba(255,236,222,.62) 100%);
+  text-align:center;font-size:12px;line-height:1.6;color:#3F2A1F;display:flex;flex-direction:column;gap:4px;
+  text-shadow:0 0 6px rgba(255,240,230,.95),0 0 2px rgba(255,240,230,.9)}
+.site-foot p{margin:0;text-wrap:balance}
+.site-foot .sf-brand{font-family:var(--f-hand);font-size:17px;line-height:1.2;color:var(--ink);margin-bottom:2px}
+.site-foot a{color:#B4400E;font-weight:800;text-decoration:none;overflow-wrap:anywhere}
+.site-foot a:hover,.site-foot a:focus-visible{text-decoration:underline}
+.site-foot .sf-copy{margin-top:4px;color:#5C4033}
+.foot{align-self:center;margin:6px 0 10px;text-align:center;font-family:var(--f-hand);font-size:21px;line-height:1.2;color:var(--ink);text-wrap:balance;
   background:var(--cream-hi);border:3px solid var(--ink);border-radius:16px 12px 16px 11px;padding:8px 18px 9px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-1.5deg)}
 
 /* шторка с героем */
@@ -228,6 +238,12 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
   </section>
   <div id="tiers"></div>
   <p class="foot">Собери все 15 карт коллекции!</p>
+  <footer class="site-foot">
+    <p class="sf-brand">Merchatta · OtakuHeaven</p>
+    <p>Владелец сайта: ИП Григорьев А.С. · ИНН 632106694012 · ОГРНИП 323631200055421</p>
+    <p><a href="mailto:otakuheavenstore@gmail.com">otakuheavenstore@gmail.com</a> · <a href="https://t.me/otakuheavenlife" target="_blank" rel="noopener">Telegram</a> · <a href="https://vk.ru/otakuheavenstore" target="_blank" rel="noopener">ВКонтакте</a></p>
+    <p class="sf-copy">© 2026 ИП Григорьев А.С. Все права защищены.</p>
+  </footer>
 </main>
 
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="c-title">
